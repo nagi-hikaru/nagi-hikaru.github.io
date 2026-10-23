@@ -29,7 +29,7 @@ defaults:
   # Site logo
   logo: 
   # Site avatar
-  avatar: /images/avatar.jpg
+  avatar: /images/style/avatar.jpg
 # IMAGE CONFIGURATION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
 
 
@@ -131,8 +131,8 @@ home_banner:
   style: fixed # static or fixed
   # Home banner image
   image: 
-    light: /images/background.png # light mode
-    dark: /images/background.png # dark mode
+    light: /images/style/background.png # light mode
+    dark: /images/style/background.png # dark mode
   # Home banner title
   title: 'Welcome to my blog.'
   # Home banner subtitle
