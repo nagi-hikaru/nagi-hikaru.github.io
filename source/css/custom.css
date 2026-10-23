@@ -1,0 +1,65 @@
+/* Preserve the avatar's proportions and keep the cat in the square crop. */
+.home-sidebar-container .sidebar-content .avatar img,
+.article-content-container .article-header .avatar img {
+  object-fit: cover;
+  object-position: 20% center;
+}
+
+/* Keep taxonomy overview titles above their content cards. */
+.page-template-container:has(> :is(.category-list-content, .tagcloud-content)),
+.page-template-container:has(> :is(.category-list-content, .tagcloud-content)):hover {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.page-template-container:has(> :is(.category-list-content, .tagcloud-content)) > .page-title-header {
+  font-size: 2.4rem;
+  margin: 6px 0 24px;
+}
+
+.page-template-container > :is(.category-list-content, .tagcloud-content) {
+  padding: clamp(20px, 3vw, 30px);
+  background: var(--background-color);
+  border-radius: 18px;
+  box-shadow: var(--redefine-box-shadow);
+}
+
+/* Keep the theme's hover highlight on the card, below the title. */
+.page-template-container > :is(.category-list-content, .tagcloud-content):hover {
+  box-shadow: var(--redefine-box-shadow-hover);
+}
+
+/* Give category and tag items a softer outline. */
+.category-list-content .all-category-list > .all-category-list-item,
+.tagcloud-content .tag-list > li > a {
+  border-radius: 28px;
+}
+
+@media (max-width: 640px) {
+  .page-template-container:has(> :is(.category-list-content, .tagcloud-content)) {
+    padding-top: 20px;
+  }
+}
+
+/* Keep the homepage text readable over both skin highlights and dark hair. */
+.home-banner-container .content .description {
+  -webkit-text-stroke: 0.35px rgba(0, 0, 0, 0.55);
+  paint-order: stroke fill;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 3px 12px rgba(0, 0, 0, 0.85);
+}
+
+.home-banner-container .content .description p {
+  opacity: 1;
+}
+
+/* Override the theme's binary inline blur while the homepage hero is active. */
+.home-banner-background[data-progressive-blur] {
+  filter: blur(var(--home-banner-blur, 0px)) !important;
+  -webkit-filter: blur(var(--home-banner-blur, 0px)) !important;
+  /* Blur follows scroll position directly, rather than playing a timed fade. */
+  transition: none;
+}
