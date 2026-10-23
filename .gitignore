@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Hexo generated files and deployment cache
+/public/
+/db.json
+/.deploy*/
+/_multiconfig.yml
+
+# Logs
+*.log
+
+# Local environment variables
+/.env
+/.env.*
+!/.env.example
+!/.env.*.example
+
+# Editor settings and temporary files
+/.vscode/
+/.idea/
+*.swp
+*.swo
+*~
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
