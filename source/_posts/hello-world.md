@@ -2,7 +2,6 @@
 title: Hello World
 date: 2026-10-23 21:00:39
 categories:
-  - 博客搭建
 tags:
   - Hexo
 ---
