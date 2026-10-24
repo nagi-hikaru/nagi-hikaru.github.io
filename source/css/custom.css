@@ -56,9 +56,9 @@
   opacity: 1;
 }
 
-/* Rain sits over the portrait, with the hero's text and links above it. */
-.home-banner-container > .home-banner-rain {
-  position: absolute;
+/* Sharp rain spans the homepage behind its hero, article and profile cards. */
+#swup > .home-banner-rain {
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -68,11 +68,14 @@
   -webkit-mask-image: linear-gradient(transparent, #000 8%, #000 88%, transparent);
 }
 
-.home-banner-container > .home-banner-rain[hidden] {
+#swup > .home-banner-rain[hidden] {
   display: none;
 }
 
-.home-banner-container:has(> .home-banner-rain) > .content {
+#swup:has(> .home-banner-rain) > .home-banner-container,
+#swup:has(> .home-banner-rain) > .main-content-container > .main-content-body,
+#swup:has(> .home-banner-rain) > .main-content-container > .main-content-footer {
+  position: relative;
   z-index: 1;
 }
 

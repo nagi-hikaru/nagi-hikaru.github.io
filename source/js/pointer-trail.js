@@ -11,7 +11,6 @@
   const particles = [];
   let canvas;
   let context;
-  let background;
   let boundSwup;
   let frame = 0;
   let width = 0;
@@ -30,12 +29,6 @@
     distance = 0;
     context?.clearRect(0, 0, width, height);
     if (canvas) canvas.hidden = true;
-  };
-
-  const strength = () => {
-    if (!background?.isConnected) background = document.querySelector('.home-banner-background.fixed');
-    const blur = parseFloat(background?.style.getPropertyValue('--home-banner-blur')) || 0;
-    return (1 - Math.min(1, blur / 15)) ** 1.5;
   };
 
   const resize = () => {
@@ -98,8 +91,7 @@
 
   const draw = (time) => {
     frame = 0;
-    const visibility = strength();
-    if (document.hidden || !finePointer.matches || reducedMotion.matches || visibility <= 0) { clear(); return; }
+    if (document.hidden || !finePointer.matches || reducedMotion.matches) { clear(); return; }
     addPoint(time);
     while (points.length && (time - points[0].time > 460 || distance - points[0].distance > 230)) points.shift();
     for (let i = particles.length - 1; i >= 0; i--) {
@@ -127,7 +119,7 @@
     for (let i = 1; i < ribbon.length; i++) {
       const before = ribbon[i - 1], point = ribbon[i], after = ribbon[Math.min(i + 1, ribbon.length - 1)];
       const fade = (1 - point.age) ** 1.6;
-      context.strokeStyle = `rgba(${palette[0]}, ${visibility * fade * 0.68})`;
+      context.strokeStyle = `rgba(${palette[0]}, ${fade * 0.68})`;
       context.lineWidth = 5.1 * (0.2 + 0.8 * fade);
       context.beginPath();
       context.moveTo((before.x + point.x) / 2, (before.y + point.y) / 2);
@@ -143,7 +135,7 @@
       const y = particle.y + particle.ny * drift - age * particle.lift;
       const color = palette[particle.color];
       context.shadowColor = `rgba(${color}, 0.3)`;
-      context.fillStyle = `rgba(${color}, ${visibility * (1 - age) ** 2 * 0.55})`;
+      context.fillStyle = `rgba(${color}, ${(1 - age) ** 2 * 0.55})`;
       context.beginPath();
       context.arc(x, y, particle.radius * (1 - age * 0.45), 0, Math.PI * 2);
       context.fill();
@@ -154,7 +146,7 @@
 
   const move = (event) => {
     if (event.pointerType !== 'mouse' || !finePointer.matches || reducedMotion.matches || document.hidden) return;
-    if (event.buttons || event.target.closest('input, textarea, [contenteditable="true"], .search-pop-overlay.active') || strength() <= 0) { clear(); return; }
+    if (event.buttons || event.target.closest('input, textarea, [contenteditable="true"], .search-pop-overlay.active')) { clear(); return; }
     if (!createCanvas()) return;
     target = { x: event.clientX, y: event.clientY };
     if (!frame) frame = requestAnimationFrame(draw);
@@ -162,7 +154,6 @@
 
   const refresh = () => {
     clear();
-    background = document.querySelector('.home-banner-background.fixed');
   };
   const bindNavigation = (event) => {
     const swup = window.swup || event?.detail?.swup;

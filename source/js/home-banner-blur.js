@@ -20,12 +20,15 @@
     const title = banner?.querySelector('.description');
     const background = document.querySelector('.home-banner-background');
     const navbar = document.querySelector('.navbar-container');
-    if (!title || !background?.classList.contains('fixed')) return;
+    if (!background?.classList.contains('fixed')) return;
 
     const controller = new AbortController();
     const { signal } = controller;
+    window.nagiCreateHomeRain?.(background, signal);
+    disposePage = () => controller.abort();
+    // Home pagination has a fixed portrait but no hero title to measure.
+    if (!title) return;
     const refraction = window.nagiCreateHomeRefraction?.(background, banner, signal);
-    const rain = window.nagiCreateHomeRain?.(banner, signal);
     let frame = 0;
     let start = 0;
     let end = 1;
@@ -39,7 +42,6 @@
       const eased = progress * progress * (3 - 2 * progress);
       background.style.setProperty('--home-banner-blur', `${(15 * eased).toFixed(3)}px`);
       refraction?.setProgress(eased);
-      rain?.setProgress(eased);
     };
 
     const schedule = () => {

@@ -1,5 +1,5 @@
 (() => {
-  window.nagiCreateHomeRain = (banner, signal) => {
+  window.nagiCreateHomeRain = (background, signal) => {
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
     if (signal.aborted || reducedMotion.matches) return null;
 
@@ -9,15 +9,14 @@
     canvas.className = 'home-banner-rain';
     canvas.setAttribute('aria-hidden', 'true');
     canvas.hidden = true;
-    banner.prepend(canvas);
+    // A sibling stays sharp when the portrait's own filter becomes blurred.
+    background.after(canvas);
 
     let width = 1;
     let height = 1;
     let drops = [];
     let frame = 0;
     let lastTick = 0;
-    let progress = 0;
-    let inView = true;
 
     // Soft cross-sections and tapered exposure streaks avoid sharp scratch marks.
     const makeStreak = (soft) => {
@@ -57,7 +56,7 @@
     const foregroundStreak = makeStreak(true);
     let ratio = 1;
 
-    const allowed = () => !signal.aborted && !document.hidden && !reducedMotion.matches && inView && progress < 1;
+    const allowed = () => !signal.aborted && !document.hidden && !reducedMotion.matches;
     const stop = () => {
       cancelAnimationFrame(frame);
       frame = 0;
@@ -97,8 +96,8 @@
     };
     const resize = () => {
       if (signal.aborted) return;
-      width = Math.max(1, banner.clientWidth);
-      height = Math.max(1, banner.clientHeight);
+      width = Math.max(1, document.documentElement.clientWidth);
+      height = Math.max(1, window.innerHeight);
       ratio = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.round(width * ratio);
       canvas.height = Math.round(height * ratio);
@@ -124,29 +123,14 @@
       resume();
     };
 
-    const sizeObserver = new ResizeObserver(resize);
-    sizeObserver.observe(banner);
-    const visibilityObserver = new IntersectionObserver(entries => {
-      inView = entries[0].isIntersecting;
-      resume();
-    });
-    visibilityObserver.observe(banner);
+    window.addEventListener('resize', resize, { passive: true, signal });
     document.addEventListener('visibilitychange', resume, { signal });
     reducedMotion.addEventListener('change', resume, { signal });
     signal.addEventListener('abort', () => {
       stop();
-      sizeObserver.disconnect();
-      visibilityObserver.disconnect();
       canvas.remove();
     }, { once: true });
     resize();
 
-    return {
-      setProgress(value) {
-        progress = value;
-        canvas.style.opacity = String((1 - value) ** 1.5);
-        resume();
-      },
-    };
   };
 })();
