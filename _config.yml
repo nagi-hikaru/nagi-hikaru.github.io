@@ -98,6 +98,13 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: redefine
 
+# Local search index for the theme's search dialog
+search:
+  path: search.json
+  field: post
+  content: true
+  format: striptags
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
