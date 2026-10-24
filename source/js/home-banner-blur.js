@@ -24,6 +24,7 @@
 
     const controller = new AbortController();
     const { signal } = controller;
+    const refraction = window.nagiCreateHomeRefraction?.(background, banner, signal);
     let frame = 0;
     let start = 0;
     let end = 1;
@@ -36,6 +37,7 @@
       // Smoothstep eases both ends without introducing a scroll threshold jump.
       const eased = progress * progress * (3 - 2 * progress);
       background.style.setProperty('--home-banner-blur', `${(15 * eased).toFixed(3)}px`);
+      refraction?.setProgress(eased);
     };
 
     const schedule = () => {

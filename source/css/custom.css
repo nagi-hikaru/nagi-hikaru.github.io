@@ -56,6 +56,19 @@
   opacity: 1;
 }
 
+/* The refraction layer affects only the background and never intercepts clicks. */
+.home-banner-refraction {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.home-banner-refraction[hidden] {
+  display: none;
+}
+
 /* Override the theme's binary inline blur while the homepage hero is active. */
 .home-banner-background[data-progressive-blur] {
   filter: blur(var(--home-banner-blur, 0px)) !important;

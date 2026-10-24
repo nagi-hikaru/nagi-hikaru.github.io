@@ -444,6 +444,7 @@ inject:
     - '<link rel="stylesheet" href="/css/custom.css">'
   # Inject custom footer html code
   footer:
+    - '<script defer src="/js/home-banner-refraction.js"></script>'
     - '<script defer src="/js/home-banner-blur.js"></script>'
 # INJECT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
 
