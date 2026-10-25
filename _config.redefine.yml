@@ -442,6 +442,7 @@ inject:
   # Inject custom head html code
   head: 
     - '<link rel="stylesheet" href="/css/custom.css">'
+    - '<script defer src="/js/page-canonical.js"></script>'
   # Inject custom footer html code
   footer:
     - '<script defer src="/js/home-banner-refraction.js"></script>'
