@@ -1,0 +1,21 @@
+<h1 class="page-title-header"><%- getPageTitle(page) %></h1>
+<div class="tagcloud-content">
+  <% if (!site.tags.length) { %>
+    <div class="taxonomy-empty" role="status">
+      <p class="taxonomy-empty-title">暂无标签</p>
+      <p class="taxonomy-empty-description">文章标签会显示在这里。</p>
+    </div>
+  <% } else if (theme.page_templates.tags_style === 'cloud') { %>
+    <%- tagcloud({ min_font: 1, max_font: 5, unit: 'rem', amount: 100 }) %>
+  <% } else { %>
+    <ul class="tag-list" data-show-value="true">
+      <% site.tags.forEach(function(tag) { %>
+        <li>
+          <a data-weight="<%= tag.posts.length %>" href="<%= url_for('/' + tag.path) %>">
+            <i class="fa-solid fa-hashtag"></i><%= tag.name %>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</div>

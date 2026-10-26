@@ -1,0 +1,21 @@
+<% if (theme.comment.system === 'utterances' && theme.comment.config.utterances?.repo) { %>
+  <% const comments = theme.comment.config.utterances; %>
+  <div id="utterances-container"
+       data-repo="<%= comments.repo %>"
+       data-issue-term="<%= comments.issue_term || 'pathname' %>"
+       data-issue-number="<%= comments.issue_number || '' %>"
+       data-label="<%= comments.label || '' %>"
+       data-utterances-theme-light="<%= comments.theme_light || 'github-light' %>"
+       data-utterances-theme-dark="<%= comments.theme_dark || 'github-dark' %>">
+    <div class="utterances-status" role="status" aria-live="polite" data-state="loading">
+      <p class="utterances-message">评论正在加载…</p>
+      <div class="utterances-actions">
+        <button type="button" class="utterances-retry" hidden>重试加载</button>
+        <a class="utterances-github" href="https://github.com/<%= comments.repo %>/issues" target="_blank" rel="noopener noreferrer">在 GitHub 查看或发表评论</a>
+      </div>
+      <noscript>启用 JavaScript 后可在这里发表评论，也可以使用上面的 GitHub 入口。</noscript>
+    </div>
+    <div class="utterances-mount"></div>
+  </div>
+  <script src="<%= url_for('js/utterances-loader.js') %>" data-swup-reload-script></script>
+<% } %>

@@ -25,7 +25,7 @@ info:
 # Docs: https://redefine-docs.ohevan.com/basic/defaults
 defaults:
   # Favicon
-  favicon: /images/redefine-favicon.svg
+  favicon: /images/style/icon.png
   # Site logo
   logo: 
   # Site avatar
@@ -218,6 +218,9 @@ navbar:
     标签:
       path: /tags/
       icon: fa-regular fa-tags
+    关于:
+      path: /about/
+      icon: fa-regular fa-user
     # Archives: 
     #   path: /archives 
     #   icon: fa-regular fa-archive # can be empty
@@ -449,6 +452,7 @@ inject:
     - '<script defer src="/js/home-banner-rain.js"></script>'
     - '<script defer src="/js/home-banner-blur.js"></script>'
     - '<script defer src="/js/pointer-trail.js"></script>'
+    - '<script defer src="/js/tag-balls.js"></script>'
 # INJECT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
 
 

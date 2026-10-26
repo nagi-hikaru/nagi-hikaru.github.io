@@ -5,7 +5,7 @@
   object-position: 20% center;
 }
 
-/* Keep taxonomy overview titles above their content cards. */
+/* Keep taxonomy overview cards without a visible page heading. */
 .page-template-container:has(> :is(.category-list-content, .tagcloud-content)),
 .page-template-container:has(> :is(.category-list-content, .tagcloud-content)):hover {
   padding: 0;
@@ -15,11 +15,22 @@
 }
 
 .page-template-container:has(> :is(.category-list-content, .tagcloud-content)) > .page-title-header {
-  font-size: 2.4rem;
-  margin: 6px 0 24px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 .page-template-container > :is(.category-list-content, .tagcloud-content) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-height: max(280px, 66.6667svh);
   padding: clamp(20px, 3vw, 30px);
   background: var(--background-color);
   border-radius: 18px;
@@ -31,10 +42,147 @@
   box-shadow: var(--redefine-box-shadow-hover);
 }
 
+.page-template-container > :is(.category-list-content, .tagcloud-content):has(> .taxonomy-empty) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.taxonomy-empty {
+  padding: 24px;
+  text-align: center;
+  line-height: 1.7;
+}
+
+.taxonomy-empty-title {
+  margin: 0;
+  color: var(--second-text-color);
+  font-size: 1.15rem;
+  font-weight: 550;
+}
+
+.taxonomy-empty-description {
+  margin: 8px 0 0;
+  color: var(--third-text-color);
+  font-size: 0.9rem;
+}
+
 /* Give category and tag items a softer outline. */
 .category-list-content .all-category-list > .all-category-list-item,
 .tagcloud-content .tag-list > li > a {
   border-radius: 28px;
+}
+
+/* Colored tag spheres retain the theme's outlined cards and hover highlight. */
+.page-template-container > .tagcloud-content[data-tag-balls] {
+  margin-inline: auto;
+  padding: clamp(16px, 3vw, 28px);
+  overflow: hidden;
+  text-align: center;
+}
+
+.tagcloud-content[data-tag-balls] .tag-list {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  isolation: isolate;
+}
+
+.tagcloud-content[data-tag-balls] .tag-list > li {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--ball-size);
+  height: var(--ball-size);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  will-change: transform;
+}
+
+.tagcloud-content[data-tag-balls] .tag-list > li > a,
+.tagcloud-content[data-tag-balls] .tag-list > li > a:hover,
+.tagcloud-content[data-tag-balls] .tag-list > li > a:active {
+  --tag-tint: hsl(var(--tag-hue) 28% 58%);
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 14%;
+  border: 1px solid color-mix(in srgb, var(--tag-tint) 48%, var(--border-color));
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 22%, color-mix(in srgb, var(--tag-tint) 32%, transparent), transparent 68%),
+    color-mix(in srgb, var(--tag-tint) 14%, var(--background-color));
+  box-shadow: var(--redefine-box-shadow), inset 0 1px 0 color-mix(in srgb, var(--tag-tint) 30%, transparent);
+  color: var(--first-text-color);
+  font-size: var(--ball-font-size, 16px);
+  line-height: 1.3;
+  opacity: 1;
+  filter: none !important;
+  transform: none;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  transition: box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.tagcloud-content[data-tag-balls] .tag-list > li > a:hover,
+.tagcloud-content[data-tag-balls] .tag-list > li > a:focus-visible,
+.tagcloud-content[data-tag-balls] .tag-list > li > a.is-dragging {
+  border-color: color-mix(in srgb, var(--tag-tint) 75%, var(--first-text-color));
+  box-shadow: var(--redefine-box-shadow-hover),
+    0 0 22px color-mix(in srgb, var(--tag-tint) 18%, transparent),
+    inset 0 0 16px color-mix(in srgb, var(--tag-tint) 12%, transparent);
+}
+
+.tagcloud-content[data-tag-balls] .tag-list > li > a:focus-visible {
+  outline: 2px solid var(--tag-tint);
+  outline-offset: 4px;
+}
+
+.tagcloud-content[data-tag-balls] .tag-list > li:has(.is-dragging) {
+  z-index: 1;
+}
+
+.tagcloud-content[data-tag-balls] .tag-list > li > a.is-dragging {
+  cursor: grabbing;
+}
+
+.tagcloud-content[data-tag-balls] .tag-list > li > a::after {
+  content: none;
+}
+
+.tagcloud-content[data-tag-balls] .tag-ball-label {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.tagcloud-content[data-tag-balls] .tag-ball-label .fa-hashtag,
+.tagcloud-content[data-tag-balls] a:hover .tag-ball-label .fa-hashtag {
+  margin-right: 3px;
+  color: inherit;
+  opacity: 0.45;
+}
+
+.tagcloud-content[data-tag-balls] .tag-ball-count {
+  flex-shrink: 0;
+  min-width: 1.7em;
+  padding: 3px 7px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tag-tint) 16%, var(--third-background-color));
+  color: var(--second-text-color);
+  font-size: 0.78em;
+  line-height: 1.2;
 }
 
 @media (max-width: 640px) {
@@ -42,6 +190,142 @@
     padding-top: 20px;
   }
 }
+
+/* The profile page uses the same soft outline and rose accents as the blog. */
+#swup .page-template-container:has(.about-page) .page-template-content > h1 {
+  display: none;
+}
+
+.about-page .about-profile {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 44px);
+  padding: clamp(24px, 4vw, 40px);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--primary-color) 7%, var(--background-color));
+}
+
+#swup .about-page .about-avatar {
+  flex-shrink: 0;
+  width: 144px;
+  height: 144px;
+  margin: 0;
+  border-radius: 26px;
+  object-fit: cover;
+  object-position: 20% center;
+  box-shadow: var(--redefine-box-shadow);
+}
+
+#swup .page-template-container .about-page h2 {
+  margin: 0 0 16px;
+  padding: 0;
+  border: 0;
+  font-size: 1.3rem;
+}
+
+#swup .page-template-container .about-page #about-name {
+  margin-bottom: 10px;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.2;
+}
+
+#swup .about-page .about-profile p { margin: 0; }
+#swup .about-page .about-motto { color: var(--primary-color); font-size: 1.1rem; }
+#swup .about-page .about-caption { margin-top: 12px; color: var(--third-text-color); font-size: 0.9rem; }
+.about-page .about-intro,
+.about-page .about-skills,
+.about-page .about-contact { margin-top: 36px; }
+#swup .about-page .about-intro p { margin: 8px 0; line-height: 1.9; }
+
+#swup .about-page .about-skills-image {
+  display: block;
+  width: min(100%, 384px);
+  height: auto;
+  margin: 0;
+  cursor: default;
+}
+
+#swup .about-page .about-skills-light { display: none; }
+.light #swup .about-page .about-skills-dark { display: none; }
+.light #swup .about-page .about-skills-light { display: block; }
+
+.about-contact-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.about-page .about-contact-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  background: var(--background-color);
+  color: var(--first-text-color);
+  text-decoration: none;
+  box-shadow: var(--redefine-box-shadow-flat);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.about-page .about-contact-link:hover,
+.about-page .about-contact-link:focus-visible {
+  border-color: var(--primary-color);
+  box-shadow: var(--redefine-box-shadow-hover);
+}
+
+.about-contact-link > i:first-child { color: var(--primary-color); font-size: 1.5rem; }
+.about-contact-link > i:last-child { margin-left: auto; color: var(--third-text-color); font-size: 0.85rem; }
+.about-contact-text { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.about-contact-text > span { color: var(--third-text-color); font-size: 0.85rem; overflow-wrap: anywhere; }
+
+@media (max-width: 640px) {
+  .about-page .about-profile { flex-direction: column; text-align: center; }
+  #swup .about-page .about-avatar { width: 112px; height: 112px; }
+  .about-contact-links { grid-template-columns: 1fr; }
+}
+
+/* Keep comment loading failures visible and provide a direct GitHub entry. */
+.utterances-status {
+  margin-block: 16px;
+  padding: 22px 24px;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  background: var(--background-color);
+  color: var(--second-text-color);
+  line-height: 1.7;
+}
+
+.utterances-status[hidden],
+.utterances-retry[hidden] {
+  display: none;
+}
+
+.utterances-message { margin: 0 0 12px; }
+
+.utterances-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  font-size: 0.9rem;
+}
+
+.utterances-actions > a { color: var(--primary-color); }
+
+.utterances-retry {
+  padding: 6px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--third-background-color);
+  color: var(--first-text-color);
+  cursor: pointer;
+}
+
+.utterances-retry:hover { box-shadow: var(--redefine-box-shadow-hover); }
 
 /* Keep the homepage text readable over both skin highlights and dark hair. */
 .home-banner-container .content .description {
@@ -55,6 +339,40 @@
 .home-banner-container .content .description p {
   opacity: 1;
 }
+
+.home-banner-container .content .home-about-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+  padding: 10px 22px;
+  border: 1px solid rgba(255, 248, 245, 0.35);
+  border-radius: 999px;
+  background: rgba(25, 20, 24, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff8f5;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-decoration: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.home-banner-container .content .home-about-link:hover {
+  border-color: var(--primary-color);
+  background: rgba(25, 20, 24, 0.4);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--primary-color) 30%, transparent);
+}
+
+.home-banner-container .content .home-about-link:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 4px;
+}
+
+.home-about-link > i { font-size: 0.8em; }
 
 /* Sharp rain spans the homepage behind its hero, article and profile cards. */
 #swup > .home-banner-rain {

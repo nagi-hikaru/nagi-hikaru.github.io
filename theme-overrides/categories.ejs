@@ -1,0 +1,14 @@
+<h1 class="page-title-header"><%- getPageTitle(page) %></h1>
+<div class="category-list-content">
+  <% if (!site.categories.length) { %>
+    <div class="taxonomy-empty" role="status">
+      <p class="taxonomy-empty-title">暂无分类</p>
+      <p class="taxonomy-empty-description">文章分类会显示在这里。</p>
+    </div>
+  <% } else { %>
+    <%- list_categories(site.categories, { class: 'all-category', depth: 5, style: 'list' }) %>
+  <% } %>
+</div>
+<div class="category-comments">
+  <% if (page.comment) { %><%- partial('components/comments/comment') %><% } %>
+</div>

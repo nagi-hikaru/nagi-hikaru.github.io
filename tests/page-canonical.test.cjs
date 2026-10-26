@@ -11,9 +11,8 @@ const fix = read(path.join(root, 'source/js/page-canonical.js'));
 const articlePath = '/2026/10/23/hello-world/';
 const article = read(path.join(root, 'public', articlePath, 'index.html'));
 const articleDocument = new JSDOM(article).window.document;
-const commentInit = [...articleDocument.scripts].find((script) =>
-  script.textContent.includes('const repo = "nagi-hikaru/nagi-hikaru.github.io"')
-).textContent;
+const commentMarkup = articleDocument.getElementById('utterances-container').outerHTML;
+const commentInit = read(path.join(root, 'source/js/utterances-loader.js'));
 const origin = 'https://nagi-hikaru.github.io';
 
 function page(url, comments = false) {
@@ -21,7 +20,7 @@ function page(url, comments = false) {
     <link rel="canonical" href="${origin}${url}">
     <meta property="og:url" content="${origin}${url}index.html">
     </head><body><main id="swup">${comments ? `
-    <div id="utterances-container"></div>
+    ${commentMarkup}
     <script data-swup-reload-script>${commentInit}</script>` : ''}
     </main></body></html>` };
 }
