@@ -67,10 +67,76 @@
   font-size: 0.9rem;
 }
 
-/* Give category and tag items a softer outline. */
-.category-list-content .all-category-list > .all-category-list-item,
+/* Give tag items a softer outline. */
 .tagcloud-content .tag-list > li > a {
   border-radius: 28px;
+}
+
+/* Compact category cards share the tag spheres' muted palette. */
+.page-template-container > .category-list-content .all-category-list {
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.category-list-content .all-category-list-item {
+  --tag-tint: hsl(var(--tag-hue) 28% 58%);
+}
+
+.page-template-container > .category-list-content .all-category-list > .all-category-list-item {
+  box-sizing: border-box;
+  width: auto;
+  min-width: 112px;
+  max-width: 100%;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--tag-tint) 48%, var(--border-color));
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 30% 22%, color-mix(in srgb, var(--tag-tint) 32%, transparent), transparent 68%),
+    color-mix(in srgb, var(--tag-tint) 14%, var(--background-color));
+  box-shadow: var(--redefine-box-shadow), inset 0 1px 0 color-mix(in srgb, var(--tag-tint) 30%, transparent);
+  color: var(--first-text-color);
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  transition: box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.page-template-container > .category-list-content .all-category-list > .all-category-list-item:hover {
+  background-color: color-mix(in srgb, var(--tag-tint) 14%, var(--background-color));
+  border-color: color-mix(in srgb, var(--tag-tint) 75%, var(--first-text-color));
+  box-shadow: var(--redefine-box-shadow-hover), 0 0 22px color-mix(in srgb, var(--tag-tint) 18%, transparent);
+  color: var(--first-text-color);
+  transform: none;
+}
+
+.page-template-container > .category-list-content .all-category-list .all-category-list-item > .all-category-list-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+  border-bottom: 0;
+  color: inherit;
+}
+
+.page-template-container > .category-list-content .all-category-list .all-category-list-item > .all-category-list-link:focus-visible {
+  outline: 2px solid var(--tag-tint);
+  outline-offset: -4px;
+  border-radius: 13px;
+}
+
+.page-template-container > .category-list-content .all-category-list .all-category-list-item > .all-category-list-link > span.all-category-list-count {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 7px;
+  border: 0;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tag-tint) 16%, var(--third-background-color));
+  color: var(--second-text-color);
+  font-size: 0.78em;
+  line-height: 1.2;
+  vertical-align: middle;
 }
 
 /* Colored tag spheres retain the theme's outlined cards and hover highlight. */

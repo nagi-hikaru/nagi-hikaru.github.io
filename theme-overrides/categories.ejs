@@ -6,7 +6,12 @@
       <p class="taxonomy-empty-description">文章分类会显示在这里。</p>
     </div>
   <% } else { %>
-    <%- list_categories(site.categories, { class: 'all-category', depth: 5, style: 'list' }) %>
+    <% let categoryColorIndex = 0; %>
+    <%- list_categories(site.categories, { class: 'all-category', depth: 5, style: 'list' })
+      .replace(/<\/a><span class="all-category-list-count">(\d+)<\/span>/g,
+        '<span class="all-category-list-count">$1</span></a>')
+      .replace(/<li class="all-category-list-item">/g, () =>
+        `<li class="all-category-list-item" style="--tag-hue: ${(345 + categoryColorIndex++ * 137.508) % 360}">`) %>
   <% } %>
 </div>
 <div class="category-comments">
