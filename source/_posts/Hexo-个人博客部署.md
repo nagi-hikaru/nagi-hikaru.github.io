@@ -7,7 +7,7 @@ tags:
 
 Hexo 是一个基于 Node.js 的静态博客框架，生成速度快、主题丰富，适合用来搭建个人博客。本文记录从零开始使用 Hexo 搭建个人博客并部署到 GitHub Pages 的完整流程。
 
-### 1 环境准备
+### 一、环境准备
 
 在开始之前，需要先安装以下工具：
 
@@ -22,9 +22,9 @@ npm -v
 git --version
 ```
 
-### 2 本地运行 Hexo 博客
+### 二、本地运行 Hexo 博客
 
-#### 2.1 安装 Hexo
+#### 安装 Hexo
 
 全局安装 Hexo CLI：
 ```bash
@@ -35,7 +35,7 @@ npm install -g hexo-cli
 hexo -v
 ```
 
-#### 2.2 创建博客项目
+#### 创建博客项目
 
 选择一个存放博客的目录，执行：
 ```bash
@@ -62,7 +62,7 @@ my-blog
 - themes：主题目录
 - scaffolds：文章模板目录
 
-#### 2.3 本地预览
+#### 本地预览
 
 启动本地服务：
 ```bash
@@ -76,10 +76,10 @@ hexo server
 hexo server -p 5000
 ```
 
-#### 2.4 修改博客配置
+#### 修改博客配置
 修改项目根目录下的 `_config.yml` 文件，如果更换了主题可能需要修改主题对应的配置文件。
 
-#### 2.5 常用命令
+#### 常用命令
 ```bash
 hexo new "博客名"  // 创建文章
 hexo clean        // 清理 public/ 目录
@@ -87,9 +87,9 @@ hexo generatet    // 生成 public/ 目录
 hexo server       // 预览博客
 ```
 
-### 3 部署到 Github Page
+### 三、部署到 Github Page
 
-#### 3.1 创建 Github 仓库
+#### 创建 Github 仓库
 
 在 GitHub 上创建一个 public 仓库。如果希望使用默认域名访问，仓库名建议为：
 ```text
@@ -100,7 +100,7 @@ hexo server       // 预览博客
 nagi-hiakru.github.io
 ```
 
-#### 3.2 配置 git 忽略规则
+#### 配置 git 忽略规则
 创建 `.gitignore` 文件，一般包含：
 ```text
 node_modules/
@@ -113,7 +113,7 @@ Thumbs.db
 
 `source/`，`_config.yml`，`package.json`和`package-lock.json`需要纳入 git 版本管理。
 
-#### 3.3 配置 Github Actions 自动部署
+#### 配置 Github Actions 自动部署
 在项目根目录创建文件：
 ```text
 .github/workflows/pages.yml
@@ -175,7 +175,7 @@ jobs:
 
 ```
 
-#### 3.3 推送代码到仓库
+#### 推送代码到仓库
 在终端执行如下命令：
 ```bash
 git init
@@ -185,7 +185,7 @@ git remote add origin 仓库地址
 git push -u origin main
 ```
 
-#### 3.4 在 Github 上开启 Pages
+#### 在 Github 上开启 Pages
 1. 打开刚才的 Github 仓库；
 2. 点击 `Settings -> Pages`;
 3. 在 `Build and deployment -> Source`中选择 `Github Actions`；
@@ -193,7 +193,7 @@ git push -u origin main
 5. 等待构建和部署两个 Job 都显示成功；
 6. 访问 `https://用户名.github.io`。
 
-### 4 自定义你的博客
+### 四、自定义你的博客
 可以访问[Hexo 主题](https://hexo.node.org.cn/themes/)，挑选自己喜欢的主题，本站的主题就是其中的**redefine**魔改版。
 
 ---

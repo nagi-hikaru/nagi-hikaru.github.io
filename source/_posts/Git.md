@@ -251,3 +251,7 @@ git commit -m "chore: stop tracking env file."
 | 推送提交 | `git push` |
 | 通过新提交撤销旧提交 | `git revert <commit>` |
 | 临时保存修改 | `git stash push` |
+
+### 参考资料
+- Git 官方教程：https://git-scm.com/docs/gittutorial
+- Git 官方速查表：https://git-scm.com/cheat-sheet
