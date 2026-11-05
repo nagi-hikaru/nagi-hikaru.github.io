@@ -19,6 +19,9 @@ Hexo 是一个基于 Node.js 的静态博客框架，生成速度快、主题丰
 ```bash
 node -v
 npm -v
+```
+
+```git
 git --version
 ```
 
@@ -31,15 +34,18 @@ git --version
 npm install -g hexo-cli
 ```
 安装完成后，检查是否安装成功：
-```bash
+```hexo
 hexo -v
 ```
 
 #### 创建博客项目
 
 选择一个存放博客的目录，执行：
-```bash
+```hexo
 hexo init my-blog
+```
+
+```bash
 cd my-blog
 npm install
 ```
@@ -65,14 +71,14 @@ my-blog
 #### 本地预览
 
 启动本地服务：
-```bash
+```hexo
 hexo server
 ```
 
 默认访问地址：http://localhost:4000
 
 如果希望修改端口，可以执行：
-```bash
+```hexo
 hexo server -p 5000
 ```
 
@@ -80,11 +86,11 @@ hexo server -p 5000
 修改项目根目录下的 `_config.yml` 文件，如果更换了主题可能需要修改主题对应的配置文件。
 
 #### 常用命令
-```bash
-hexo new "博客名"  // 创建文章
-hexo clean        // 清理 public/ 目录
-hexo generatet    // 生成 public/ 目录
-hexo server       // 预览博客
+```hexo
+hexo new "博客名"  # 创建文章
+hexo clean        # 清理 public/ 目录
+hexo generate     # 生成 public/ 目录
+hexo server       # 预览博客
 ```
 
 ### 三、部署到 Github Page
@@ -177,7 +183,7 @@ jobs:
 
 #### 推送代码到仓库
 在终端执行如下命令：
-```bash
+```git
 git init
 git add .
 git commit -m "Initial Hexo blog"

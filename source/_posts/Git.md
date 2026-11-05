@@ -9,29 +9,29 @@ tags:
 
 [Git](https://git-scm.com/) 是目前最流行的分布式版本管理系统，由 [Linus Torvalds](https://github.com/torvalds) 于 2005 年为管理 Linux 内核源码而创建。本文记录 git 的一些常见命令及基本使用方法，供个人查阅及速查。
 
-### 一、 安装及配置
+### 一、安装及配置
 
 参考 [git 官方网站](https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-%E5%AE%89%E8%A3%85-Git) 进行安装。
 
 #### 查看 git 版本
-```bash
+```git
 git --version
 ```
 
 #### 配置用户名及邮箱
 这些信息用于记录提交作者，不是登录凭据。若要让 GitHub 关联提交，邮箱应使用账号中已验证的邮箱或 GitHub 提供的 noreply 邮箱；用户名可以自行设置。
-```bash
+```git
 git config --global user.name "your name"
 git config --global user.email "your email"
 ```
 
 #### 设置默认分支名（可选）
-```bash
+```git
 git config --global init.defaultBranch main
 ```
 
 #### 查看配置
-```bash
+```git
 git config --global --list
 ```
 
@@ -39,13 +39,13 @@ git config --global --list
 
 #### 初始化现有项目
 在普通项目目录中，该命令会生成 `.git` 目录，用于保存 Git 的元数据和版本历史。
-```bash
+```git
 git init
 ```
 
 #### 克隆远程仓库
 `git clone`会自动下载项目文件及其版本历史，并默认将远程仓库命名为`origin`。
-```bash
+```git
 git clone https://github.com/username/repo.git
 ```
 
@@ -56,13 +56,13 @@ git clone https://github.com/username/repo.git
 #### status
 用于查看当前分支，未跟踪文件，已修改文件和暂存区内容。
 - -s: 简洁输出
-```bash
+```git
 git status
 ```
 
 #### add
 将改动加入暂存区。
-```bash
+```git
 git add .          # 暂存当前目录及子目录中的改动（忽略规则生效）
 git add README.md  # 暂存指定文件的改动
 ```
@@ -79,7 +79,7 @@ git add README.md  # 暂存指定文件的改动
 
 #### commit
 提交已暂存的改动到 git 仓库。
-```bash
+```git
 git commit -m "提交信息"
 ```
 
@@ -92,7 +92,7 @@ git commit -m "提交信息"
 
 #### log
 查看提交历史。
-```bash
+```git
 git log
 git log --oneline
 ```
@@ -100,7 +100,7 @@ git log --oneline
 ### 四、分支管理
 
 分支用于隔离不同功能的开发。
-```bash
+```git
 git branch     # 查看本地分支
 git branch -a  # 查看本地和远程跟踪分支
 
@@ -119,22 +119,22 @@ git merge origin/main  # 将 origin/main 合并到当前分支
 ### 五、远程连接
 
 #### 查看远程连接
-```bash
+```git
 git remote -v
 ```
 
 #### 添加远程连接
-```bash
+```git
 git remote add origin https://github.com/username/repo.git
 ```
 
 #### 修改远程连接
-```bash
+```git
 git remote set-url origin https://github.com/username/new-repo.git
 ```
 
 #### 拉取与推送
-```bash
+```git
 git fetch origin  # 拉取远程更新，但不合并
 git pull  # 获取并整合当前分支的上游更新（取决于配置和参数）
 
@@ -143,7 +143,7 @@ git push -u origin main  # 首次推送并绑定上游
 ```
 
 #### 删除远程连接
-```bash
+```git
 git remote remove origin
 # 等价写法：git remote rm origin
 ```
@@ -153,14 +153,14 @@ git remote remove origin
 区分三个场景：
 
 #### 修改了文件，还没 add
-```bash
+```git
 git restore README.md
 ```
 
 这会丢弃`README.md`中尚未暂存的修改，无法保证找回。
 
 #### 已经 add，但还没 commit
-```bash
+```git
 git restore --staged README.md
 ```
 
@@ -168,14 +168,14 @@ git restore --staged README.md
 
 #### 已经提交，需要撤销提交
 - 推荐用于已推送，多人共享的场景。
-```bash
+```git
 git revert <commit-id>
 ```
 
 将 `<commit-id>` 替换为实际提交哈希（无需尖括号）。它会生成一个**反向提交**，不直接修改既有历史；遇到冲突时需要先解决冲突。
 
 - 仅用于尚未共享的本地提交。
-```bash
+```git
 git reset --soft HEAD~1   # 撤销最近一次提交，修改保存在暂存区
 git reset --mixed HEAD~2  # 回退两次提交，保留工作区内容并清空暂存状态（默认模式）
 git reset --hard HEAD~1   # 高危命令，它会移动当前分支，并丢弃受影响的已跟踪文件修改
@@ -186,18 +186,18 @@ git reset --hard HEAD~1   # 高危命令，它会移动当前分支，并丢弃�
 当前修改尚未完成，但需要切换分支，可以暂存工作现场。
 
 #### 保存修改到 stash
-```bash
+```git
 git stash push -m "暂存信息"  # 暂存已跟踪文件的修改
 git stash push -u -m "暂存信息"  # 同时包含未跟踪文件
 ```
 
 #### 查看 stash 记录
-```bash
+```git
 git stash list
 ```
 
 #### 恢复 stash 中的修改
-```bash
+```git
 git stash pop
 ```
 
@@ -222,7 +222,7 @@ git stash pop
 ```
 
 `.gitignore`主要影响未被 git 跟踪的文件。如果一个文件已经提交过，添加忽略规则不会自动停止跟踪。可通过以下命令取消跟踪：
-```bash
+```git
 git rm --cached .env
 git commit -m "chore: stop tracking env file."
 ```
