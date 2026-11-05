@@ -29,7 +29,7 @@ Lima 使用 `limactl` 管理虚拟机，每台虚拟机称为一个实例。下�
 
 使用 Ubuntu 22.04 模板创建实例，并指定名称：
 
-```zsh
+```limactl
 limactl create --name=xv6-oslab template:ubuntu-22.04
 ```
 
@@ -47,7 +47,7 @@ limactl create --name=xv6-oslab template:ubuntu-22.04
 
 启动已经创建的实例：
 
-```zsh
+```limactl
 limactl start xv6-oslab
 ```
 
@@ -55,21 +55,31 @@ limactl start xv6-oslab
 
 如果还没有创建实例，也可以直接执行以下命令，一步创建并启动 `xv6-oslab`：
 
-```zsh
+```limactl
 limactl start --name=xv6-oslab template:ubuntu-22.04
 ```
 
 通过以下命令查看所有实例的名称和运行状态：
 
-```zsh
+```limactl
 limactl list
+```
+
+#### 文件共享
+
+lima 默认将 `Users/用户名/` 目录挂载到虚拟机相同路径下。但是默认权限是**只读**。
+
+也可以使用 `copy` 命令在宿主机与虚拟机之间转移文件。
+```limactl
+limactl copy 源文件路径 目标路径
+limactl copy -r 源文件夹路径 目标路径
 ```
 
 #### 进入终端
 
 实例启动后，进入它的交互式 Shell：
 
-```zsh
+```limactl
 limactl shell xv6-oslab
 ```
 
@@ -77,7 +87,7 @@ limactl shell xv6-oslab
 
 先通过 `exit` 返回 macOS 终端，再停止实例：
 
-```zsh
+```limactl
 limactl stop xv6-oslab
 ```
 
