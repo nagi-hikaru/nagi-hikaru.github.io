@@ -5,6 +5,51 @@
   object-position: 20% center;
 }
 
+/* Distinguish emphasis and links in article prose in both theme modes. */
+.article-content.markdown-body {
+  --article-bold-color: #b33f64;
+  --article-italic-color: #7653a6;
+  --article-link-color: #2769a5;
+  --article-link-hover-color: #194f80;
+}
+
+.dark .article-content.markdown-body {
+  --article-bold-color: #f0a0ba;
+  --article-italic-color: #c9adeb;
+  --article-link-color: #8fc5f4;
+  --article-link-hover-color: #b6dbff;
+}
+
+.article-content.markdown-body strong:not(.not-markdown) {
+  color: var(--article-bold-color);
+}
+
+.article-content.markdown-body em:not(.not-markdown) {
+  color: var(--article-italic-color);
+}
+
+.article-content.markdown-body a:not(.not-markdown):not(.headerlink) {
+  color: var(--article-link-color);
+  text-decoration-color: currentColor;
+  transition: color 150ms ease;
+}
+
+.article-content.markdown-body a:not(.not-markdown):not(.headerlink):is(:hover, :focus) {
+  color: var(--article-link-hover-color);
+  /* The theme marks its hover underline color as important. */
+  text-decoration-color: currentColor !important;
+}
+
+.article-content.markdown-body a:not(.not-markdown):not(.headerlink):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* Emphasized link labels retain the link color and interaction states. */
+.article-content.markdown-body a:not(.not-markdown):not(.headerlink) :is(strong, em):not(.not-markdown) {
+  color: inherit;
+}
+
 /* Keep taxonomy overview cards without a visible page heading. */
 .page-template-container:has(> :is(.category-list-content, .tagcloud-content)),
 .page-template-container:has(> :is(.category-list-content, .tagcloud-content)):hover {

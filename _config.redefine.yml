@@ -137,7 +137,7 @@ home_banner:
   title: 'Welcome to my blog.'
   # Home banner subtitle
   subtitle:
-    text: ["静思，笃行"] # subtitle text, array
+    text: ["静思，笃行", "懂得越多，懂得越少"] # subtitle text, array
     hitokoto:  # 一言配置
       enable: false # Whether to enable hitokoto
       show_author: false # Whether to show author
@@ -330,7 +330,7 @@ articles:
   # Table of contents settings
   toc:
     enable: true # Whether to enable TOC
-    max_depth: 3 # TOC depth
+    max_depth: 4 # TOC depth
     number: false # Whether to add number to TOC automatically
     expand: true # Whether to expand TOC
     init_open: true # Open toc by default
