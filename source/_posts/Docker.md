@@ -604,7 +604,58 @@ docker network rm app-net
 
 删除网络不会删除容器或镜像，但容器将失去通过该网络进行通信的能力。默认的 `bridge`、`host` 和 `none` 网络不能按普通自定义网络删除。删除命令可以参考 [官方文档](https://docs.docker.com/reference/cli/docker/network/rm/)。
 
-### 九、Dockerfile
+### 九、Prune
+
+Docker 会保留已经停止的容器、暂时用不到的镜像和构建缓存。确定这些资源不再需要时，可以用 `prune` 批量清理。前面介绍的 `rm` 命令适合删除指定资源，`prune` 则会处理当前 Docker Engine 中所有符合条件的资源。
+
+#### 查看磁盘占用
+
+使用 `docker system df` 查看镜像、容器、数据卷和构建缓存的占用情况。`-v` 会列出明细。
+
+```bash
+docker system df
+docker system df -v
+```
+
+#### 按资源类型清理
+
+根据磁盘占用情况选择需要的命令：
+
+| 命令 | 清理范围 |
+| --- | --- |
+| `docker container prune` | 已停止的容器。容器可写层中的文件也会随容器删除 |
+| `docker image prune` | 悬空镜像，即没有标签且没有被容器引用的镜像 |
+| `docker image prune -a` | 所有未被容器引用的镜像，包括带标签的镜像 |
+| `docker network prune` | 没有容器引用的自定义网络 |
+| `docker volume prune` | 没有容器引用的本地匿名卷 |
+| `docker volume prune -a` | 没有容器引用的本地匿名卷和命名卷（Docker API 1.42 及以上） |
+| `docker builder prune` | 默认清理悬空的构建缓存，加 `-a` 可清理所有未使用的构建缓存 |
+
+停止的容器仍可能引用镜像、网络和数据卷。删除容器后，如果资源失去了最后一个引用，就可能在后续清理中被删除。
+
+#### 按条件清理
+
+例如，只删除创建超过 7 天且当前已停止的容器：
+
+```bash
+docker container prune --filter "until=168h"
+```
+
+这里的 `until` 按容器的创建时间判断，与容器停止了多久无关。不同资源支持的筛选条件也不同，例如 `docker volume prune` 支持 `label`，而 `docker container prune` 支持 `until` 和 `label`。具体用法可以参考[容器清理](https://docs.docker.com/reference/cli/docker/container/prune/)和[数据卷清理](https://docs.docker.com/reference/cli/docker/volume/prune/)。
+
+#### 一次清理多种资源
+
+`docker system prune` 默认删除已停止的容器、未被容器引用的自定义网络、悬空镜像和未使用的构建缓存，保留数据卷。
+
+```bash
+docker system prune
+```
+
+加上 `-a` 会将镜像清理范围扩大到所有未被容器引用的镜像，加上 `--volumes` 会额外清理未被容器引用的匿名卷。命令默认会提示确认，`-f` 会跳过确认。参数可以参考 [官方说明](https://docs.docker.com/reference/cli/docker/system/prune/)。
+
+清理数据卷前，可以用 `docker volume ls --filter dangling=true` 列出当前没有容器引用的卷。
+
+### 十、Dockerfile
 
 Dockerfile 是一个描述镜像构建步骤的文本文件，通常命名为 `Dockerfile`，不带扩展名。通过它可以指定基础镜像、复制应用文件、安装依赖，并设置容器启动时执行的命令，让构建过程可以重复执行。
 
@@ -717,7 +768,7 @@ docker build --no-cache -t my-nginx:1.0 .
 docker build --pull --no-cache -t my-nginx:1.0 .
 ```
 
-### 十、Compose
+### 十一、Compose
 
 Docker Compose 可以通过一个 YAML 文件定义服务、网络和数据卷，再通过命令统一创建和管理容器。相比逐条编写 `docker run`，它可以把运行配置保存在文件中，方便重复使用和分享。
 
@@ -897,6 +948,6 @@ docker compose down -v
 
 这会删除本例 Redis 数据卷中的数据。配置为 `external` 的网络和数据卷不会被 `down` 删除，即使使用 `-v` 也一样。普通 `down` 虽然会保留匿名卷，但后续 `up` 不会自动重新挂载原来的匿名卷，因此需要持久保存的数据通常使用命名卷或绑定挂载。删除范围可以参考 [官方说明](https://docs.docker.com/reference/cli/docker/compose/down/)。
 
-### 十一、参考资料
+### 十二、参考资料
 
 - geeksforgeeks: https://www.geeksforgeeks.org/
